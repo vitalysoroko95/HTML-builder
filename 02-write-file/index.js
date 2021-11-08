@@ -12,11 +12,12 @@ fs.writeFile(path.join(__dirname, 'text.txt'), '', err => {if(err) throw err;});
 stdout.write('Hello\n');
 stdin.on('data', data=>{
   let str = data.toString().trim();
-  if (str === 'exit' || str === 'SIGINT' ){
-    stdout.write('good bye!');
+  if (str === 'exit'){
+    stdout.write('good bye!\n');
     process.exit();
+  } else
 
-  } else {
+  {
     fs.appendFile(
       path.join(__dirname, 'text.txt'),
       data,
@@ -26,6 +27,12 @@ stdin.on('data', data=>{
     );
   }
 });
+
+process.on('SIGINT', () => {
+  stdout.write('good bye!\n');
+  process.exit();
+});
+
 
 
 
